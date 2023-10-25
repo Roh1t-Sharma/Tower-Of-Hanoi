@@ -21,17 +21,17 @@ public class TowerOfHanoi
     {
         return rodA;
     }
-    
+
     public List<int> GetRodB()
     {
         return rodB;
     }
-    
+
     public List<int> GetRodC()
     {
         return rodC;
     }
-    
+
     public int GetDisks()
     {
         return disks;
