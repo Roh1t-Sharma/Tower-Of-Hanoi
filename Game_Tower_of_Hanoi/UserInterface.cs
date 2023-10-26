@@ -2,7 +2,7 @@ namespace Game_Tower_of_Hanoi
 {
     public interface UserInterface
     {
-        public void DisplayGame(TowerOfHanoi game)
+        public void DisplayGameBoard(TowerOfHanoi game)
         {
             Console.Clear();
             Console.WriteLine("Game of Tower Of Hanoi");
@@ -37,8 +37,9 @@ namespace Game_Tower_of_Hanoi
             }
             Console.WriteLine();
         }
-    
-        private ConsoleColor GetDiskColor(int disksize)
+
+        private ConsoleColor GetDisk
+        Color(int disksize)
         {
             switch (disksize)
             {
@@ -51,8 +52,9 @@ namespace Game_Tower_of_Hanoi
                 case 4:
                     return ConsoleColor.White;
             }
+            
         }
-        
+
         public string GetUserInput()
         {
             return Console.ReadLine();
