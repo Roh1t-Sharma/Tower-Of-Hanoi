@@ -38,10 +38,9 @@ namespace Game_Tower_of_Hanoi
             Console.WriteLine();
         }
 
-        private ConsoleColor GetDisk
-        Color(int disksize)
+        private ConsoleColor GetDiskColor(int diskSize)
         {
-            switch (disksize)
+            switch (diskSize)
             {
                 case 1:
                     return ConsoleColor.Red;
@@ -49,10 +48,9 @@ namespace Game_Tower_of_Hanoi
                     return ConsoleColor.Green;
                 case 3:
                     return ConsoleColor.Blue;
-                case 4:
+                default:
                     return ConsoleColor.White;
             }
-            
         }
 
         public string GetUserInput()
