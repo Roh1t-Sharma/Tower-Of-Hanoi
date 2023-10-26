@@ -58,7 +58,7 @@ namespace Game_Tower_of_Hanoi
     
             if (source.Count == 0)
             {
-                Console.WriteLine("Invalid move!! Source rot empty.");
+                Console.WriteLine("Invalid move!! Source rod empty.");
                 return;
             }
     
