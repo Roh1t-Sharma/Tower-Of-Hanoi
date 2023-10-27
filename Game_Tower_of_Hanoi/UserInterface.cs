@@ -1,6 +1,6 @@
 namespace Game_Tower_of_Hanoi
 {
-    public interface UserInterface
+    public class UserInterface
     {
         public void DisplayGameBoard(TowerOfHanoi game)
         {
