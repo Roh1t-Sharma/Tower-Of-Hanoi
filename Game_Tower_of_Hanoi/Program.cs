@@ -7,31 +7,73 @@ namespace Game_Tower_of_Hanoi
     {
         static void Main(string[] args)
         {
-            TowerOfHanoi game = new TowerOfHanoi(numDisks: 3);
+            UserInterface UserInterface = new UserInterface();
             LeaderboardManager leaderboardManager = new LeaderboardManager();
-            UserInterface userInterface = new UserInterface();
 
-            bool playAgain = true; // Initialize playAgain to true
+            bool playAgain = true;
 
             while (playAgain)
             {
-                bool quit = false;
+                string playerName = UserInterface.GetPlayerName();
+                int difficultyLevel = UserInterface.GetDifficultyLevel();
 
+                TowerOfHanoi? game;
+
+                // Load saved game or start a new game based on user input
+                Console.WriteLine("Do you want to load a saved game? (Y/N): ");
+                string loadGameChoice = UserInterface.GetUserInput().ToUpper();
+                if (loadGameChoice == "Y")
+                {
+                    try
+                    {
+                        game = TowerOfHanoi.LoadGame("savegame.json");
+                        Console.WriteLine("Game loaded successfully.");
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("No saved game found. Starting a new game.");
+                        game = new TowerOfHanoi(difficultyLevel);
+                    }
+                }
+                else
+                {
+                    game = new TowerOfHanoi(difficultyLevel);
+                }
+
+                bool quit = false;
                 while (!quit)
                 {
-                    userInterface.DisplayGameBoard(game);
-                    Console.WriteLine("Enter your moves (Enter Source & Destination rod)(e.g., ab).\nPress: 'V' to view" +
-                                      " leaderboard;\n'Q' to quit");
-                    string input = userInterface.GetUserInput().ToUpper();
+                    UserInterface.DisplayGameBoard(game);
+                    Console.WriteLine("Enter your move (source rod, destination rod), 'S' to save, 'V' to View ScoreBoard 'Q' to quit: ");
+                    string input = UserInterface.GetUserInput().ToUpper();
 
-                    if (input == "V")
+                    if (input == "S")
                     {
-                        var leaderboard = leaderboardManager.GetLeaderboard();
-                        userInterface.DisplayLeaderBoard(leaderboard);
+                        game.SaveGame("savegame.json");
+                        Console.WriteLine("Game saved successfully.");
+                    }
+                    else if (input == "L")
+                    {
+                        game = TowerOfHanoi.LoadGame("savegame.json");
+                        Console.WriteLine("Game loaded successfully.");
+                    }
+                    else if (input == "V")
+                    {
+                        Console.WriteLine("Enter the number of disks (3, 4, or 5) to view the leaderboard: ");
+                        if (int.TryParse(UserInterface.GetUserInput(), out int numDisks) && (numDisks == 3 || numDisks == 4 || numDisks == 5))
+                        {
+                            var leaderboard = leaderboardManager.GetLeaderboard(numDisks); // Pass the number of disks
+                            UserInterface.DisplayLeaderBoard(leaderboard, numDisks); // Pass the number of disks
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input for the number of disks.");
+                        }
                     }
                     else if (input == "Q")
                     {
                         quit = true;
+                        playAgain = false;
                     }
                     else
                     {
@@ -44,32 +86,27 @@ namespace Game_Tower_of_Hanoi
                         }
                         else
                         {
-                            Console.WriteLine("Invalid move. Please enter source and destination rods (e.g., 'AB/ab').");
+                            Console.WriteLine("Invalid move. Please enter source and destination rods (e.g., 'AB').");
                             Console.ReadLine();
                         }
+
+                        if (game.IsGameWon())
+                        {
+                            UserInterface.DisplayGameBoard(game);
+                            Console.WriteLine($"Congratulations! You won in {game.GetMoves()} moves.");
+                            Console.WriteLine("Enter your name for the leaderboard: ");
+
+                            int numDisks = game.GetDisks();
+                            leaderboardManager.AddToLeaderboard(playerName, game.GetMoves(), numDisks);
+                            var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
+                            UserInterface.DisplayLeaderBoard(leaderboard, numDisks);
+
+                            Console.WriteLine("Do you want to play another game? (Y/N): ");
+                            string playAgainInput = UserInterface.GetUserInput().ToUpper();
+                            playAgain = (playAgainInput == "Y");
+                            quit = true;
+                        }
                     }
-
-                    if (game.IsGameWon())
-                    {
-                        Console.WriteLine($"Congratulations! You won in {game.GetMoves()} moves.");
-                        Console.WriteLine("Enter your name for the Leaderboard: ");
-
-                        string playerName = userInterface.GetUserInput();
-                        leaderboardManager.AddToLeaderboard(playerName, game.GetMoves(), game.GetDisks()); // Added number of disks
-                        var leaderboard = leaderboardManager.GetLeaderboard();
-                        userInterface.DisplayLeaderBoard(leaderboard);
-                        quit = true;
-                    }
-                }
-
-                userInterface.DisplayGameBoard(game);
-                Console.WriteLine("Wanna give it another shot? (Y/N): ");
-                string playAgainInput = userInterface.GetUserInput().ToUpper();
-                playAgain = (playAgainInput == "Y");
-
-                if (playAgain)
-                {
-                    game = new TowerOfHanoi(numDisks: 3);
                 }
             }
         }

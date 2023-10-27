@@ -1,4 +1,7 @@
 using System.Runtime.InteropServices.JavaScript;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+
 
 namespace Game_Tower_of_Hanoi
 {
@@ -10,11 +13,11 @@ namespace Game_Tower_of_Hanoi
         private List<int> rodB;
         private List<int> rodC;
     
-        public TowerOfHanoi(int numDisks)
+        public TowerOfHanoi(int difficultyLevel)
         {
             moves = 0;
-            disks = numDisks;
-            rodA = new List<int>(Enumerable.Range(1, numDisks).Reverse());
+            disks = difficultyLevel;
+            rodA = new List<int>(Enumerable.Range(1, disks).Reverse());
             rodB = new List<int>();
             rodC = new List<int>();
         }
@@ -82,6 +85,30 @@ namespace Game_Tower_of_Hanoi
         public int GetMoves()
         {
             return moves;
+        }
+
+        public void SaveGame(string fileName)
+        {
+            string json = JsonConvert.SerializeObject(this);
+            File.WriteAllText(fileName, json);
+        }
+
+        public static TowerOfHanoi? LoadGame(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                string json = File.ReadAllText(fileName);
+                return JsonConvert.DeserializeObject<TowerOfHanoi>(json);
+            }
+            else
+            {
+                throw new FileNotFoundException("Saved game file not found.");
+            }
+        }
+
+        internal void SetMoves(int moves)
+        {
+            throw new NotImplementedException();
         }
     }
 }
