@@ -57,15 +57,15 @@ namespace Game_Tower_of_Hanoi
         {
             return Console.ReadLine();
         }
-    
-        public void DisplayLeaderBoard(List<PlayerScore> leaderboard)
+
+        public void DisplayLeaderBoard(List<LeaderboardManager.PlayerScore> leaderboard)
         {
             Console.WriteLine("LeaderBoard: \n");
-            Console.WriteLine("Rank \t Player \t Moves");
+            Console.WriteLine("Rank\tPlayer\tMoves\tNumDisks");
             int rank = 1;
             foreach (var playerScore in leaderboard)
             {
-                Console.WriteLine($"{rank} \t {playerScore.Name} \t {playerScore.Score}");
+                Console.WriteLine($"{rank} \t {playerScore.Name} \t {playerScore.Score} \t {playerScore.NumDisks}");
                 rank++;
             }
         }
