@@ -14,17 +14,19 @@ namespace Game_Tower_of_Hanoi
 
     public class UserInterface
     {
-        private const int MaxDisks = 5;
-        private int[] towerSizes = new int[MaxDisks];
+        private const int MaxDisks = 5; // Maximum number of disks for the Tower of Hanoi game.
+        private int[] towerSizes = new int[MaxDisks]; // Array to store tower sizes.
 
         public UserInterface()
         {
+            // Initializing tower sizes array with incremental disk values.
             for (int i = 0; i < MaxDisks; i++)
             {
                 towerSizes[i] = i + 1;
             }
         }
-
+        
+        // Displaying the Tower of Hanoi game board on the console.
         public void DisplayGameBoard(TowerOfHanoi game)
         {
             Console.Clear();
@@ -44,6 +46,7 @@ namespace Game_Tower_of_Hanoi
             Console.WriteLine("\n");
         }
 
+        // Displaying a single rod with disks.
         private void DisplayRod(List<int> rod)
         {
             foreach (var disksize in rod)
@@ -57,6 +60,7 @@ namespace Game_Tower_of_Hanoi
             Console.WriteLine();
         }
 
+        // Assigning a color to a disk based on its size.
         private ConsoleColor GetDiskColor(int diskSize)
         {
             switch (diskSize)
@@ -72,16 +76,18 @@ namespace Game_Tower_of_Hanoi
                 case 5:
                     return ConsoleColor.Magenta;
                 default:
-                    return ConsoleColor.White;
+                    return ConsoleColor.White; // Default color for any other disk size.
             }
         }
 
+        // Getting the player's name for the game.
         public string GetPlayerName()
         {
             Console.WriteLine("Enter your name: ");
             return Console.ReadLine();
         }
 
+        // Getting the desired difficulty level from the player.
         public DifficultyLevel GetDifficultyLevel()
         {
             Console.WriteLine("Choose difficulty Level: ");
@@ -108,14 +114,13 @@ namespace Game_Tower_of_Hanoi
                     return DifficultyLevel.Easy;
             }
         }
-
-        // Other existing methods...
-
-        public string GetUserInput()
+        
+        public string GetUserInput() // to get user input from the console.
         {
             return Console.ReadLine();
         }
 
+        // to display the leaderboard for a specific number of disks.
         public void DisplayLeaderBoard(List<LeaderboardManager.PlayerScore> leaderboard, int numDisks)
         {
             Console.WriteLine($"Leaderboard for {numDisks} disks:\n");
@@ -128,19 +133,21 @@ namespace Game_Tower_of_Hanoi
             }
         }
 
+        // Saving the game state to the JSON file.
         public void SaveGameToJson(TowerOfHanoi game, string fileName)
         {
-            string json = JsonConvert.SerializeObject(game);
-            File.WriteAllText(fileName, json);
+            string json = JsonConvert.SerializeObject(game); // Serializing game data to JSON.
+            File.WriteAllText(fileName, json); // Writing JSON data to a file.
             Console.WriteLine($"Game saved to {fileName} successfully.");
         }
 
+        // Loading the game state from the JSON file.
         public TowerOfHanoi LoadGameFromJson(string fileName)
         {
-            if (File.Exists(fileName))
+            if (File.Exists(fileName)) //to check if the file exists.
             {
-                string json = File.ReadAllText(fileName);
-                TowerOfHanoi loadedGame = JsonConvert.DeserializeObject<TowerOfHanoi>(json);
+                string json = File.ReadAllText(fileName); // to read JSON data from JSON file
+                TowerOfHanoi loadedGame = JsonConvert.DeserializeObject<TowerOfHanoi>(json); // Deserializing JSON data to the TowerOfHanoi object.
                 Console.WriteLine($"Game loaded from {fileName} successfully.");
                 return loadedGame;
             }

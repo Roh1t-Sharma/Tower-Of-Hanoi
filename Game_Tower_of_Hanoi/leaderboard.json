@@ -1,0 +1,67 @@
+{
+  "3": [
+    {
+      "Name": "Rohit",
+      "Score": 7
+    },
+    {
+      "Name": "Roro",
+      "Score": 10
+    },
+    {
+      "Name": "Shrma",
+      "Score": 8
+    },
+    {
+      "Name": "Player1",
+      "Score": 9
+    }
+
+  ],
+  "0": [
+    {
+      "Name": "abcd",
+      "Score": 0
+    },
+    {
+      "Name": "Shrma",
+      "Score": 0
+    }
+  ],
+  "4": [
+    {
+      "Name": "Angel",
+      "Score": 20
+    },
+    {
+      "Name": "Player1",
+      "Score": 18
+    },
+    {
+      "Name": "Player2",
+      "Score": 22
+    }, 
+    {
+      "Name": "Player3",
+      "Score": 15
+    }
+  ],
+  "5":  [
+    {
+      "Name": "Player2",
+      "Score": 37
+    },
+    {
+      "Name": "Player5",
+      "Score": 34
+    },
+    {
+      "Name": "Player4",
+      "Score": 30
+    },
+    {
+      "Name": "Player6",
+      "Score": 31
+    }
+  ]
+}
