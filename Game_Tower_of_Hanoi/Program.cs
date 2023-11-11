@@ -1,11 +1,8 @@
-﻿using Game_Tower_of_Hanoi;
-using System;
-
-namespace Game_Tower_of_Hanoi
+﻿namespace Game_Tower_of_Hanoi
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             UserInterface userInterface = new UserInterface();
             LeaderboardManager leaderboardManager = new LeaderboardManager();
@@ -14,14 +11,14 @@ namespace Game_Tower_of_Hanoi
 
             while (playAgain)
             {
-                string playerName = userInterface.GetPlayerName();
+                string? playerName = userInterface.GetPlayerName();
                 DifficultyLevel difficultyLevel = userInterface.GetDifficultyLevel();
 
-                TowerOfHanoi game;
+                TowerOfHanoi? game;
 
                 // Load saved game or start a new game based on user input
                 Console.WriteLine("Do you want to load a saved game? (Y/N): ");
-                string loadGameChoice = userInterface.GetUserInput().ToUpper();
+                string? loadGameChoice = userInterface.GetUserInput()?.ToUpper();
                 if (loadGameChoice == "Y")
                 {
                     try
@@ -45,7 +42,7 @@ namespace Game_Tower_of_Hanoi
                 {
                     userInterface.DisplayGameBoard(game);
                     Console.WriteLine("Enter your move (source rod, destination rod), 'S' to save, 'V' to View Scoreboard, 'Q' to quit: ");
-                    string input = userInterface.GetUserInput().ToUpper();
+                    string? input = userInterface.GetUserInput()?.ToUpper();
 
                     if (input == "S")
                     {
@@ -54,7 +51,11 @@ namespace Game_Tower_of_Hanoi
                     }
                     else if (input == "V")
                     {
-                        Console.WriteLine("Enter the number of disks (3, 4, or 5) to view the leaderboard: ");
+                        Console.WriteLine("Enter the level to view the leaderboard for: ");
+                        Console.WriteLine(" 3 for Easy");
+                        Console.WriteLine(" 4 for Medium");
+                        Console.WriteLine(" 5 for Hard");
+
                         if (int.TryParse(userInterface.GetUserInput(), out int numDisks) && (numDisks == 3 || numDisks == 4 || numDisks == 5))
                         {
                             var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
@@ -72,11 +73,11 @@ namespace Game_Tower_of_Hanoi
                     }
                     else
                     {
-                        if (input.Length >= 2)
+                        if (input != null && input.Length >= 2)
                         {
                             char sourceRod = input[0];
                             char destinationRod = input[1];
-                            game.MoveDisk(sourceRod, destinationRod);
+                            game?.MoveDisk(sourceRod, destinationRod);
                         }
                         else
                         {
@@ -84,11 +85,10 @@ namespace Game_Tower_of_Hanoi
                             Console.ReadLine();
                         }
 
-                        if (game.IsGameWon())
+                        if (game != null && game.IsGameWon())
                         {
                             userInterface.DisplayGameBoard(game);
                             Console.WriteLine($"Congratulations! You won in {game.GetMoves()} moves.");
-                            Console.WriteLine("Enter your name for the leaderboard: ");
 
                             int numDisks = game.GetDisks();
                             leaderboardManager.AddToLeaderboard(playerName, game.GetMoves(), numDisks);
@@ -96,7 +96,7 @@ namespace Game_Tower_of_Hanoi
                             userInterface.DisplayLeaderBoard(leaderboard, numDisks);
 
                             Console.WriteLine("Do you want to play another game? (Y/N): ");
-                            string playAgainInput = userInterface.GetUserInput().ToUpper();
+                            string? playAgainInput = userInterface.GetUserInput()?.ToUpper();
                             playAgain = (playAgainInput == "Y");
                             quit = true;
                         }
