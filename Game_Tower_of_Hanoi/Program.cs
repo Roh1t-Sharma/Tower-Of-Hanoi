@@ -1,105 +1,104 @@
-﻿namespace Game_Tower_of_Hanoi
+﻿namespace Game_Tower_of_Hanoi;
+
+class Program
 {
-    class Program
+    static void Main()
     {
-        static void Main()
+        UserInterface userInterface = new UserInterface();
+        LeaderboardManager leaderboardManager = new LeaderboardManager();
+
+        bool playAgain = true;
+
+        while (playAgain)
         {
-            UserInterface userInterface = new UserInterface();
-            LeaderboardManager leaderboardManager = new LeaderboardManager();
+            string? playerName = userInterface.GetPlayerName();
+            DifficultyLevel difficultyLevel = userInterface.GetDifficultyLevel();
 
-            bool playAgain = true;
+            TowerOfHanoi? game;
 
-            while (playAgain)
+            // Load saved game or start a new game based on user input
+            Console.WriteLine("Do you want to load a saved game? (Y/N): ");
+            string? loadGameChoice = userInterface.GetUserInput()?.ToUpper();
+            if (loadGameChoice == "Y")
             {
-                string? playerName = userInterface.GetPlayerName();
-                DifficultyLevel difficultyLevel = userInterface.GetDifficultyLevel();
-
-                TowerOfHanoi? game;
-
-                // Load saved game or start a new game based on user input
-                Console.WriteLine("Do you want to load a saved game? (Y/N): ");
-                string? loadGameChoice = userInterface.GetUserInput()?.ToUpper();
-                if (loadGameChoice == "Y")
+                try
                 {
-                    try
-                    {
-                        game = userInterface.LoadGameFromJson("savegame.json");
-                        Console.WriteLine("Game loaded successfully.");
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("No saved game found. Starting a new game.");
-                        game = new TowerOfHanoi((int)difficultyLevel);
-                    }
+                    game = userInterface.LoadGameFromJson("savegame.json");
+                    Console.WriteLine("Game loaded successfully.");
                 }
-                else
+                catch (Exception)
                 {
+                    Console.WriteLine("No saved game found. Starting a new game.");
                     game = new TowerOfHanoi((int)difficultyLevel);
                 }
+            }
+            else
+            {
+                game = new TowerOfHanoi((int)difficultyLevel);
+            }
 
-                bool quit = false;
-                while (!quit)
+            bool quit = false;
+            while (!quit)
+            {
+                userInterface.DisplayGameBoard(game);
+                Console.WriteLine("Enter your move (source rod, destination rod), 'S' to save, 'V' to View Scoreboard, 'Q' to quit: ");
+                string? input = userInterface.GetUserInput()?.ToUpper();
+
+                if (input == "S")
                 {
-                    userInterface.DisplayGameBoard(game);
-                    Console.WriteLine("Enter your move (source rod, destination rod), 'S' to save, 'V' to View Scoreboard, 'Q' to quit: ");
-                    string? input = userInterface.GetUserInput()?.ToUpper();
+                    userInterface.SaveGameToJson(game, "savegame.json");
+                    Console.WriteLine("Game saved successfully.");
+                }
+                else if (input == "V")
+                {
+                    Console.WriteLine("Enter the level to view the leaderboard for: ");
+                    Console.WriteLine(" 3 for Easy");
+                    Console.WriteLine(" 4 for Medium");
+                    Console.WriteLine(" 5 for Hard");
 
-                    if (input == "S")
+                    if (int.TryParse(userInterface.GetUserInput(), out int numDisks) && (numDisks == 3 || numDisks == 4 || numDisks == 5))
                     {
-                        userInterface.SaveGameToJson(game, "savegame.json");
-                        Console.WriteLine("Game saved successfully.");
-                    }
-                    else if (input == "V")
-                    {
-                        Console.WriteLine("Enter the level to view the leaderboard for: ");
-                        Console.WriteLine(" 3 for Easy");
-                        Console.WriteLine(" 4 for Medium");
-                        Console.WriteLine(" 5 for Hard");
-
-                        if (int.TryParse(userInterface.GetUserInput(), out int numDisks) && (numDisks == 3 || numDisks == 4 || numDisks == 5))
-                        {
-                            var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
-                            userInterface.DisplayLeaderBoard(leaderboard, numDisks);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input for the number of disks.");
-                        }
-                    }
-                    else if (input == "Q")
-                    {
-                        quit = true;
-                        playAgain = false;
+                        var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
+                        userInterface.DisplayLeaderBoard(leaderboard, numDisks);
                     }
                     else
                     {
-                        if (input != null && input.Length >= 2)
-                        {
-                            char sourceRod = input[0];
-                            char destinationRod = input[1];
-                            game?.MoveDisk(sourceRod, destinationRod);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid move. Please enter source and destination rods (e.g., 'AB').");
-                            Console.ReadLine();
-                        }
+                        Console.WriteLine("Invalid input for the number of disks.");
+                    }
+                }
+                else if (input == "Q")
+                {
+                    quit = true;
+                    playAgain = false;
+                }
+                else
+                {
+                    if (input != null && input.Length >= 2)
+                    {
+                        char sourceRod = input[0];
+                        char destinationRod = input[1];
+                        game?.MoveDisk(sourceRod, destinationRod);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid move. Please enter source and destination rods (e.g., 'AB').");
+                        Console.ReadLine();
+                    }
 
-                        if (game != null && game.IsGameWon())
-                        {
-                            userInterface.DisplayGameBoard(game);
-                            Console.WriteLine($"Congratulations! You won in {game.GetMoves()} moves.");
+                    if (game != null && game.IsGameWon())
+                    {
+                        userInterface.DisplayGameBoard(game);
+                        Console.WriteLine($"Congratulations! You won in {game.GetMoves()} moves.");
 
-                            int numDisks = game.GetDisks();
-                            leaderboardManager.AddToLeaderboard(playerName, game.GetMoves(), numDisks);
-                            var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
-                            userInterface.DisplayLeaderBoard(leaderboard, numDisks);
+                        int numDisks = game.GetDisks();
+                        leaderboardManager.AddToLeaderboard(playerName, game.GetMoves(), numDisks);
+                        var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
+                        userInterface.DisplayLeaderBoard(leaderboard, numDisks);
 
-                            Console.WriteLine("Do you want to play another game? (Y/N): ");
-                            string? playAgainInput = userInterface.GetUserInput()?.ToUpper();
-                            playAgain = (playAgainInput == "Y");
-                            quit = true;
-                        }
+                        Console.WriteLine("Do you want to play another game? (Y/N): ");
+                        string? playAgainInput = userInterface.GetUserInput()?.ToUpper();
+                        playAgain = (playAgainInput == "Y");
+                        quit = true;
                     }
                 }
             }

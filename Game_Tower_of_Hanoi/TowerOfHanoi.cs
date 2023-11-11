@@ -98,10 +98,8 @@ namespace Game_Tower_of_Hanoi
                 string json = File.ReadAllText(fileName);
                 return JsonConvert.DeserializeObject<TowerOfHanoi>(json);
             }
-            else
-            {
-                throw new FileNotFoundException("Saved game file not found.");
-            }
+
+            throw new FileNotFoundException("Saved game file not found.");
         }
     }
 }

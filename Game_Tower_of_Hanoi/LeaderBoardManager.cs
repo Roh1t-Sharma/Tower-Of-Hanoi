@@ -6,7 +6,7 @@ namespace Game_Tower_of_Hanoi
     {
         private readonly string _leaderboardFilePath = "leaderboard.json";
         private Dictionary<int, List<PlayerScore>>? _leaderboards = new Dictionary<int, List<PlayerScore>>();
-
+        
         public LeaderboardManager()
         {
             LoadLeaderboard();
@@ -60,8 +60,7 @@ namespace Game_Tower_of_Hanoi
                 // Handle the case where the file doesn't exist, e.g., create a new leaderboard.
             }
         }
-
-
+        
         private void SaveLeaderboard()
         {
             string json = JsonSerializer.Serialize(_leaderboards, new JsonSerializerOptions { WriteIndented = true });

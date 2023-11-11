@@ -77,7 +77,6 @@ namespace Game_Tower_of_Hanoi
                     return ConsoleColor.White; 
             }
         }
-
         
         public string? GetPlayerName()
         {
@@ -113,7 +112,7 @@ namespace Game_Tower_of_Hanoi
             }
         }
         
-        public string? GetUserInput() // to get user input from the console.
+        public string? GetUserInput()
         {
             return Console.ReadLine();
         }
@@ -144,7 +143,7 @@ namespace Game_Tower_of_Hanoi
         {
             if (File.Exists(fileName)) //to check if the file exists.
             {
-                string json = File.ReadAllText(fileName); // to read JSON data from JSON file
+                string json = File.ReadAllText(fileName);
                 TowerOfHanoi? loadedGame = JsonConvert.DeserializeObject<TowerOfHanoi>(json); // Deserializing JSON data to the TowerOfHanoi object.
                 Console.WriteLine($"Game loaded from {fileName} successfully.");
                 return loadedGame;
