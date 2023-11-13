@@ -41,7 +41,8 @@ class Program
             while (!quit)
             {
                 userInterface.DisplayGameBoard(game);
-                Console.WriteLine("Enter your move (source rod, destination rod), 'S' to save, 'V' to View Scoreboard, 'Q' to quit: ");
+                Console.WriteLine("Enter your moves below (source-rod, destination-rod)");
+                Console.WriteLine("Press:\n'S' to Save the game.\n'V' to View Leaderboard.\n'Q' to Quit. ");
                 string? input = userInterface.GetUserInput()?.ToUpper();
 
                 if (input == "S")
@@ -56,7 +57,8 @@ class Program
                     Console.WriteLine(" 4 for Medium");
                     Console.WriteLine(" 5 for Hard");
 
-                    if (int.TryParse(userInterface.GetUserInput(), out int numDisks) && (numDisks == 3 || numDisks == 4 || numDisks == 5))
+                    if (int.TryParse(userInterface.GetUserInput(), out int numDisks) && 
+                        (numDisks == 3 || numDisks == 4 || numDisks == 5))
                     {
                         var leaderboard = leaderboardManager.GetLeaderboard(numDisks);
                         userInterface.DisplayLeaderBoard(leaderboard, numDisks);
