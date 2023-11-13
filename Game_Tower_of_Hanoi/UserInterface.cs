@@ -1,7 +1,4 @@
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Game_Tower_of_Hanoi
 {
@@ -14,34 +11,36 @@ namespace Game_Tower_of_Hanoi
 
     public class UserInterface
     {
-        private const int MaxDisks = 5; // Maximum number of disks for the Tower of Hanoi game.
-        private int[] towerSizes = new int[MaxDisks]; // Array to store tower sizes.
+        private const int MaxDisks = 5; 
+        private readonly int[] _towerSizes = new int[MaxDisks];
 
         public UserInterface()
         {
             // Initializing tower sizes array with incremental disk values.
             for (int i = 0; i < MaxDisks; i++)
             {
-                towerSizes[i] = i + 1;
+                _towerSizes[i] = i + 1;
             }
         }
         
-        // Displaying the Tower of Hanoi game board on the console.
-        public void DisplayGameBoard(TowerOfHanoi game)
+        public void DisplayGameBoard(TowerOfHanoi? game)
         {
             Console.Clear();
-            Console.WriteLine("Game of Tower Of Hanoi");
-            Console.WriteLine("———————————————————————");
-            Console.WriteLine($"Moves: {game.GetMoves()}\n");
+            Console.WriteLine("  Tower Of Hanoi  ");
+            Console.WriteLine("———————————————————");
+            if (game != null)
+            {
+                Console.WriteLine($"Moves: {game.GetMoves()}\n");
 
-            Console.Write("Rod A: ");
-            DisplayRod(game.GetRodA());
+                Console.Write("Rod A: ");
+                DisplayRod(game.GetRodA());
 
-            Console.Write("Rod B: ");
-            DisplayRod(game.GetRodB());
+                Console.Write("Rod B: ");
+                DisplayRod(game.GetRodB());
 
-            Console.Write("Rod C: ");
-            DisplayRod(game.GetRodC());
+                Console.Write("Rod C: ");
+                DisplayRod(game.GetRodC());
+            }
 
             Console.WriteLine("\n");
         }
@@ -53,14 +52,13 @@ namespace Game_Tower_of_Hanoi
             {
                 ConsoleColor color = GetDiskColor(disksize);
                 Console.ForegroundColor = color;
-                Console.Write(new string('*', disksize));
+                Console.Write(new string('#', disksize));
                 Console.Write(new string(' ', 7 - disksize));
                 Console.ResetColor();
             }
             Console.WriteLine();
         }
 
-        // Assigning a color to a disk based on its size.
         private ConsoleColor GetDiskColor(int diskSize)
         {
             switch (diskSize)
@@ -76,12 +74,11 @@ namespace Game_Tower_of_Hanoi
                 case 5:
                     return ConsoleColor.Magenta;
                 default:
-                    return ConsoleColor.White; // Default color for any other disk size.
+                    return ConsoleColor.White; 
             }
         }
-
-        // Getting the player's name for the game.
-        public string GetPlayerName()
+        
+        public string? GetPlayerName()
         {
             Console.WriteLine("Enter your name: ");
             return Console.ReadLine();
@@ -115,7 +112,7 @@ namespace Game_Tower_of_Hanoi
             }
         }
         
-        public string GetUserInput() // to get user input from the console.
+        public string? GetUserInput()
         {
             return Console.ReadLine();
         }
@@ -134,7 +131,7 @@ namespace Game_Tower_of_Hanoi
         }
 
         // Saving the game state to the JSON file.
-        public void SaveGameToJson(TowerOfHanoi game, string fileName)
+        public void SaveGameToJson(TowerOfHanoi? game, string fileName)
         {
             string json = JsonConvert.SerializeObject(game); // Serializing game data to JSON.
             File.WriteAllText(fileName, json); // Writing JSON data to a file.
@@ -142,12 +139,12 @@ namespace Game_Tower_of_Hanoi
         }
 
         // Loading the game state from the JSON file.
-        public TowerOfHanoi LoadGameFromJson(string fileName)
+        public TowerOfHanoi? LoadGameFromJson(string fileName)
         {
             if (File.Exists(fileName)) //to check if the file exists.
             {
-                string json = File.ReadAllText(fileName); // to read JSON data from JSON file
-                TowerOfHanoi loadedGame = JsonConvert.DeserializeObject<TowerOfHanoi>(json); // Deserializing JSON data to the TowerOfHanoi object.
+                string json = File.ReadAllText(fileName);
+                TowerOfHanoi? loadedGame = JsonConvert.DeserializeObject<TowerOfHanoi>(json); // Deserializing JSON data to the TowerOfHanoi object.
                 Console.WriteLine($"Game loaded from {fileName} successfully.");
                 return loadedGame;
             }

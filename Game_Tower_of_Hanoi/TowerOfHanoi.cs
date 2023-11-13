@@ -4,57 +4,57 @@ namespace Game_Tower_of_Hanoi
 {
     public class TowerOfHanoi
     {
-        private int moves;
-        private int disks;
-        private List<int> rodA;
-        private List<int> rodB;
-        private List<int> rodC;
+        private int _moves;
+        private readonly int _disks;
+        private readonly List<int> _rodA;
+        private readonly List<int> _rodB;
+        private readonly List<int> _rodC;
 
         public TowerOfHanoi(int difficultyLevel)
         {
-            moves = 0;
-            disks = difficultyLevel;
-            rodA = new List<int>(Enumerable.Range(1, disks).Reverse());
-            rodB = new List<int>();
-            rodC = new List<int>();
+            _moves = 0;
+            _disks = difficultyLevel;
+            _rodA = new List<int>(Enumerable.Range(1, _disks).Reverse());
+            _rodB = new List<int>();
+            _rodC = new List<int>();
         }
 
         public List<int> GetRodA()
         {
-            return rodA;
+            return _rodA;
         }
 
         public List<int> GetRodB()
         {
-            return rodB;
+            return _rodB;
         }
 
         public List<int> GetRodC()
         {
-            return rodC;
+            return _rodC;
         }
 
         public int GetDisks()
         {
-            return disks;
+            return _disks;
         }
 
         public void MoveDisk(char sourceRod, char destinationRod)
         {
             List<int> source, destination;
             if (sourceRod == 'A')
-                source = rodA;
+                source = _rodA;
             else if (sourceRod == 'B')
-                source = rodB;
+                source = _rodB;
             else
-                source = rodC;
+                source = _rodC;
 
             if (destinationRod == 'A')
-                destination = rodA;
+                destination = _rodA;
             else if (destinationRod == 'B')
-                destination = rodB;
+                destination = _rodB;
             else
-                destination = rodC;
+                destination = _rodC;
 
             if (source.Count == 0)
             {
@@ -72,17 +72,17 @@ namespace Game_Tower_of_Hanoi
 
             destination.Add(diskToMove);
             source.RemoveAt(source.Count - 1);
-            moves++;
+            _moves++;
         }
 
         public bool IsGameWon()
         {
-            return rodC.Count == disks;
+            return _rodC.Count == _disks;
         }
 
         public int GetMoves()
         {
-            return moves;
+            return _moves;
         }
 
         public void SaveGame(string fileName)
@@ -98,11 +98,8 @@ namespace Game_Tower_of_Hanoi
                 string json = File.ReadAllText(fileName);
                 return JsonConvert.DeserializeObject<TowerOfHanoi>(json);
             }
-            else
-            {
-                throw new FileNotFoundException("Saved game file not found.");
-            }
+
+            throw new FileNotFoundException("Saved game file not found.");
         }
     }
 }
-        

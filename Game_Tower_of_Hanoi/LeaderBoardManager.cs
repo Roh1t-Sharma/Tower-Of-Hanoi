@@ -1,55 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.Json;
 
 namespace Game_Tower_of_Hanoi
 {
     public class LeaderboardManager
     {
-        private string leaderboardFilePath = "leaderboard.json";
-        private Dictionary<int, List<PlayerScore>> leaderboards = new Dictionary<int, List<PlayerScore>>();
-
+        private readonly string _leaderboardFilePath = "leaderboard.json";
+        private Dictionary<int, List<PlayerScore>>? _leaderboards = new Dictionary<int, List<PlayerScore>>();
+        
         public LeaderboardManager()
         {
             LoadLeaderboard();
         }
 
-        public void AddToLeaderboard(string playerName, int score, int numDisks)
+        public void AddToLeaderboard(string? playerName, int score, int numDisks)
         {
-            if (!leaderboards.ContainsKey(numDisks))
+            if (_leaderboards != null && !_leaderboards.ContainsKey(numDisks))
             {
-                leaderboards[numDisks] = new List<PlayerScore>();
+                _leaderboards[numDisks] = new List<PlayerScore>();
             }
 
-            leaderboards[numDisks].Add(new PlayerScore { Name = playerName, Score = score });
+            _leaderboards?[numDisks].Add(new PlayerScore { Name = playerName, Score = score });
             SaveLeaderboard();
         }
 
         public List<PlayerScore> GetLeaderboard(int numDisks)
         {
-            if (leaderboards.ContainsKey(numDisks))
+            if (_leaderboards != null && _leaderboards.ContainsKey(numDisks))
             {
-                leaderboards[numDisks].Sort((a, b) => a.Score.CompareTo(b.Score));
-                return leaderboards[numDisks].GetRange(0, Math.Min(leaderboards[numDisks].Count, 10));
+                _leaderboards[numDisks].Sort((a, b) => a.Score.CompareTo(b.Score));
+                return _leaderboards[numDisks].GetRange(0, Math.Min(_leaderboards[numDisks].Count, 10));
             }
             return new List<PlayerScore>();
         }
 
         public class PlayerScore
         {
-            public string Name { get; set; }
+            public string? Name { get; set; }
             public int Score { get; set; }
         }
 
         private void LoadLeaderboard()
         {
-            if (File.Exists(leaderboardFilePath))
+            if (File.Exists(_leaderboardFilePath))
             {
                 try
                 {
-                    string json = File.ReadAllText(leaderboardFilePath);
-                    leaderboards = JsonSerializer.Deserialize<Dictionary<int, List<PlayerScore>>>(json);
+                    string json = File.ReadAllText(_leaderboardFilePath);
+                    _leaderboards = JsonSerializer.Deserialize<Dictionary<int, List<PlayerScore>>>(json);
                 }
                 catch (Exception ex)
                 {
@@ -63,12 +60,11 @@ namespace Game_Tower_of_Hanoi
                 // Handle the case where the file doesn't exist, e.g., create a new leaderboard.
             }
         }
-
-
+        
         private void SaveLeaderboard()
         {
-            string json = JsonSerializer.Serialize(leaderboards, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText(leaderboardFilePath, json);
+            string json = JsonSerializer.Serialize(_leaderboards, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_leaderboardFilePath, json);
         }
     }
 }
