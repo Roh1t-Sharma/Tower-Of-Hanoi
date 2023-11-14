@@ -1,78 +1,54 @@
-# Tower-Of-Hanoi
-Console based application of the game "Tower of Hanoi" in C#. Developed by Angel Chama and Rohit Sharma.
+# Tower of Hanoi Game
 
-### Task Analysis:
+## Overview
+This project implements the classic Tower of Hanoi game in C#. The Tower of Hanoi is a mathematical puzzle that involves three rods and a number of disks of different sizes. The goal is to move the entire stack of disks from one rod to another, obeying specific rules: only one disk can be moved at a time, and a disk can only be placed on top of a larger disk or an empty rod.
 
-The task involves creating a console-based game called "Tower of Hanoi" using C#. The game includes a user interface for player interaction, a backend game logic implementation, and a leaderboard system to track player scores. Below is the documentation covering task analysis, application architecture, and leaderboard architecture.
+## Features
 
-### Application Architecture:
+- **User Interface:** Simple console-based user interface for an interactive gaming experience.
+- **Difficulty Levels:** Choose from three difficulty levels: Easy (3 disks), Medium (4 disks), and Hard (5 disks).
+- **Save and Load:** Save your game progress to continue later or load a previously saved game.
+- **Leaderboard:** Compete for the best scores and view the leaderboard for each difficulty level.
 
-#### Game Architecture (`TowerOfHanoi` Class):
+## How to Play
 
-- The `TowerOfHanoi` class represents the game state.
-- Private members:
-  - `_moves`: Tracks the number of moves made in the game.
-  - `_disks`: Represents the difficulty level (number of disks).
-  - `_rodA`, `_rodB`, `_rodC`: Lists representing the three rods with disks.
-- Public methods:
-  - `GetRodA`, `GetRodB`, `GetRodC`: Accessors for the rods.
-  - `GetDisks`: Accessor for the difficulty level.
-  - `MoveDisk`: Moves a disk from one rod to another.
-  - `IsGameWon`: Checks if the game is won.
-  - `GetMoves`: Accessor for the number of moves.
-  - `SaveGame`: Serializes and saves the game state to a JSON file.
-  - `LoadGame`: Deserializes and loads the game state from a JSON file.
+1. **Run the Program:**
+   - Open the project in a C# development environment.
+   - Compile and run the program.
 
-#### User Interface (`UserInterface` Class):
+2. **Enter Player Name:**
+   - Enter your name when prompted.
 
-- The `UserInterface` class handles interactions with the player.
-- Public methods:
-  - `DisplayGameBoard`: Clears the console and displays the current game state.
-  - `GetPlayerName`: Gets the player's name.
-  - `GetDifficultyLevel`: Gets the desired difficulty level from the player.
-  - `GetUserInput`: Gets user input from the console.
-  - `DisplayLeaderBoard`: Displays the leaderboard for a specific number of disks.
-  - `SaveGameToJson`: Serializes and saves the game state to a JSON file.
-  - `LoadGameFromJson`: Deserializes and loads the game state from a JSON file.
+3. **Choose Difficulty Level:**
+   - Select a difficulty level (Easy, Medium, or Hard).
 
-#### Leaderboard Management (`LeaderboardManager` Class):
+4. **Gameplay:**
+   - Enter moves by specifying the source and destination rods (e.g., 'AB').
+   - Type 'S' to save the game, 'V' to view the leaderboard, and 'Q' to quit.
 
-- The `LeaderboardManager` class manages the leaderboard.
-- Private members:
-  - `_leaderboardFilePath`: Path to the leaderboard JSON file.
-  - `_leaderboards`: Dictionary storing player scores for different difficulty levels.
-- Public methods:
-  - `AddToLeaderboard`: Adds a player's score to the leaderboard.
-  - `GetLeaderboard`: Retrieves the leaderboard for a specific number of disks.
-  - `LoadLeaderboard`: Loads the leaderboard from the JSON file.
-  - `SaveLeaderboard`: Saves the leaderboard to the JSON file.
+5. **Winning:**
+   - The game is won when all disks are successfully moved to another rod.
 
-### Database Architecture:
+6. **Leaderboard:**
+   - View the leaderboard for each difficulty level to see the top scores.
 
-- The game state is saved and loaded using JSON files.
-- Leaderboard information is stored in a JSON file.
-- The structure of the leaderboard file is a dictionary with difficulty levels as keys and lists of player scores as values.
+## Save and Load
+- Type 'S' during gameplay to save your current game progress.
+- Upon restarting the program, you can choose to load a saved game.
 
-### Listing:
+## Leaderboard
+- Type 'V' during gameplay to view the leaderboard for a specific difficulty level.
+- Leaderboards are saved and loaded from a file (`leaderboard.json`).
 
-1. **Program.cs (`Program` Class):**
-   - Manages the game loop, user interface, and leaderboard interactions.
-   - Controls the flow of the game and handles player input.
+## Error Handling
+- The program includes error handling for various scenarios, such as invalid moves and file-related issues.
+- Exception messages are displayed to guide the user in case of errors.
 
-2. **TowerOfHanoi.cs (`TowerOfHanoi` Class):**
-   - Represents the game state and logic.
-   - Manages the movement of disks, checks for a win condition, and handles serialization.
+## Dependencies
+- The project uses the Newtonsoft.Json library for JSON serialization/deserialization.
 
-3. **UserInterface.cs (`UserInterface` Class):**
-   - Manages interactions with the player.
-   - Displays the game board, retrieves user input, and handles saving/loading game states.
+## Contributions
+Contributions to this project are welcome. If you find issues or have suggestions, please open an issue or create a pull request.
 
-4. **LeaderboardManager.cs (`LeaderboardManager` Class):**
-   - Manages the leaderboard.
-   - Handles adding scores, retrieving leaderboards, and saving/loading leaderboard data.
-
-### Note:
-- The `DifficultyLevel` enum defines the difficulty levels of the game.
-- The project uses Newtonsoft.Json for JSON serialization/deserialization.
-
-This documentation provides an overview of the project's structure and key components, facilitating understanding and future development.
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
