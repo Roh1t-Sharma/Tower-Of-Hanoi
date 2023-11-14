@@ -50,5 +50,3 @@ This project implements the classic Tower of Hanoi game in C#. The Tower of Hano
 ## Contributions
 Contributions to this project are welcome. If you find issues or have suggestions, please open an issue or create a pull request.
 
-## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
