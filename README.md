@@ -3,6 +3,9 @@
 ## Overview
 This project implements the classic Tower of Hanoi game in C#. The Tower of Hanoi is a mathematical puzzle that involves three rods and a number of disks of different sizes. The goal is to move the entire stack of disks from one rod to another, obeying specific rules: only one disk can be moved at a time, and a disk can only be placed on top of a larger disk or an empty rod.
 
+<img width="501" alt="Screenshot 2024-06-28 at 15 44 24" src="https://github.com/Roh1t-Sharma/Tower-Of-Hanoi/assets/118717994/539a4e53-b50c-4aa7-aa3f-d47a7db48477"> <img width="440" alt="Screenshot 2024-06-28 at 15 44 37" src="https://github.com/Roh1t-Sharma/Tower-Of-Hanoi/assets/118717994/5e869920-8a67-4f7a-8664-e56465b9b005"> <img width="456" alt="Screenshot 2024-06-28 at 15 45 00" src="https://github.com/Roh1t-Sharma/Tower-Of-Hanoi/assets/118717994/56738c21-1ca3-4618-863a-d56b73eccc58">
+
+
 ## Features
 
 - **User Interface:** Simple console-based user interface for an interactive gaming experience.
